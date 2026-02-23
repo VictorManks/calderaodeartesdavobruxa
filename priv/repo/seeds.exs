@@ -9,3 +9,13 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
+
+alias Calderaodeartedavobruxa.Accounts.User
+alias Calderaodeartedavobruxa.Repo
+
+%User{}
+|> User.email_changeset(%{email: "victorfdefariaq@gmail.com"}, validate_unique: false)
+|> User.password_changeset(%{password: "BlogDaVeia@2026"})
+|> Ecto.Changeset.put_change(:role, :admin)
+|> Ecto.Changeset.put_change(:confirmed_at, DateTime.utc_now(:second))
+|> Repo.insert!(on_conflict: :nothing, conflict_target: :email)

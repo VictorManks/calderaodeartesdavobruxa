@@ -17,10 +17,26 @@ defmodule CalderaodeartedavobruxaWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :require_admin do
+    plug :require_authenticated_user
+    plug :require_admin_user
+  end
+
   scope "/", CalderaodeartedavobruxaWeb do
     pipe_through :browser
 
     get "/", PageController, :home
+  end
+
+  scope "/", CalderaodeartedavobruxaWeb do
+    pipe_through [:browser, :require_admin]
+
+    live_session :require_admin,
+      on_mount: [{CalderaodeartedavobruxaWeb.UserAuth, :require_admin}] do
+
+      live "/artworks/new", ArtworkLive.Form, :new
+      live "/artworks/:id/edit", ArtworkLive.Form, :edit
+    end
   end
 
   # Other scopes may use custom stacks.
@@ -54,9 +70,6 @@ defmodule CalderaodeartedavobruxaWeb.Router do
       on_mount: [{CalderaodeartedavobruxaWeb.UserAuth, :require_authenticated}] do
       live "/users/settings", UserLive.Settings, :edit
       live "/users/settings/confirm-email/:token", UserLive.Settings, :confirm_email
-
-      live "/artworks/new", ArtworkLive.Form, :new
-      live "/artworks/:id/edit", ArtworkLive.Form, :edit
     end
 
     post "/users/update-password", UserSessionController, :update_password

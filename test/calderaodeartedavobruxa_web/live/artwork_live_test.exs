@@ -23,6 +23,17 @@ defmodule CalderaodeartedavobruxaWeb.ArtworkLiveTest do
       assert html =~ artwork.name
     end
 
+    test "deletes artwork in listing", %{conn: conn, artwork: artwork} do
+      {:ok, index_live, _html} = live(conn, ~p"/artworks")
+
+      assert index_live |> element("#artworks-#{artwork.id} a", "Delete") |> render_click()
+      refute has_element?(index_live, "#artworks-#{artwork.id}")
+    end
+  end
+
+  describe "Index as admin" do
+    setup [:register_and_log_in_admin, :create_artwork]
+
     test "saves new artwork", %{conn: conn} do
       {:ok, index_live, _html} = live(conn, ~p"/artworks")
 
@@ -74,13 +85,6 @@ defmodule CalderaodeartedavobruxaWeb.ArtworkLiveTest do
       assert html =~ "Artwork updated successfully"
       assert html =~ "some updated name"
     end
-
-    test "deletes artwork in listing", %{conn: conn, artwork: artwork} do
-      {:ok, index_live, _html} = live(conn, ~p"/artworks")
-
-      assert index_live |> element("#artworks-#{artwork.id} a", "Delete") |> render_click()
-      refute has_element?(index_live, "#artworks-#{artwork.id}")
-    end
   end
 
   describe "Show" do
@@ -92,6 +96,10 @@ defmodule CalderaodeartedavobruxaWeb.ArtworkLiveTest do
       assert html =~ "Show Artwork"
       assert html =~ artwork.name
     end
+  end
+
+  describe "Show as admin" do
+    setup [:register_and_log_in_admin, :create_artwork]
 
     test "updates artwork and returns to show", %{conn: conn, artwork: artwork} do
       {:ok, show_live, _html} = live(conn, ~p"/artworks/#{artwork}")

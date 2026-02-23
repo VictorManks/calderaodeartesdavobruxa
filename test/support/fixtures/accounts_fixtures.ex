@@ -41,6 +41,12 @@ defmodule Calderaodeartedavobruxa.AccountsFixtures do
     user
   end
 
+  def admin_user_fixture(attrs \\ %{}) do
+    user = user_fixture(attrs)
+    {:ok, user} = user |> Ecto.Changeset.change(role: :admin) |> Calderaodeartedavobruxa.Repo.update()
+    user
+  end
+
   def user_scope_fixture do
     user = user_fixture()
     user_scope_fixture(user)
