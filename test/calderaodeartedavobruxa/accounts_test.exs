@@ -394,4 +394,92 @@ defmodule Calderaodeartedavobruxa.AccountsTest do
       refute inspect(%User{password: "123456"}) =~ "password: \"123456\""
     end
   end
+
+  describe "opinions" do
+    alias Calderaodeartedavobruxa.Accounts.Opinion
+
+    import Calderaodeartedavobruxa.AccountsFixtures, only: [user_scope_fixture: 0]
+    import Calderaodeartedavobruxa.AccountsFixtures
+
+    @invalid_attrs %{ratin: nil, opinion_text: nil}
+
+    test "list_opinions/1 returns all scoped opinions" do
+      scope = user_scope_fixture()
+      other_scope = user_scope_fixture()
+      opinion = opinion_fixture(scope)
+      other_opinion = opinion_fixture(other_scope)
+      assert Accounts.list_opinions(scope) == [opinion]
+      assert Accounts.list_opinions(other_scope) == [other_opinion]
+    end
+
+    test "get_opinion!/2 returns the opinion with given id" do
+      scope = user_scope_fixture()
+      opinion = opinion_fixture(scope)
+      other_scope = user_scope_fixture()
+      assert Accounts.get_opinion!(scope, opinion.id) == opinion
+      assert_raise Ecto.NoResultsError, fn -> Accounts.get_opinion!(other_scope, opinion.id) end
+    end
+
+    test "create_opinion/2 with valid data creates a opinion" do
+      valid_attrs = %{ratin: 42, opinion_text: "some opinion_text"}
+      scope = user_scope_fixture()
+
+      assert {:ok, %Opinion{} = opinion} = Accounts.create_opinion(scope, valid_attrs)
+      assert opinion.ratin == 42
+      assert opinion.opinion_text == "some opinion_text"
+      assert opinion.user_id == scope.user.id
+    end
+
+    test "create_opinion/2 with invalid data returns error changeset" do
+      scope = user_scope_fixture()
+      assert {:error, %Ecto.Changeset{}} = Accounts.create_opinion(scope, @invalid_attrs)
+    end
+
+    test "update_opinion/3 with valid data updates the opinion" do
+      scope = user_scope_fixture()
+      opinion = opinion_fixture(scope)
+      update_attrs = %{ratin: 43, opinion_text: "some updated opinion_text"}
+
+      assert {:ok, %Opinion{} = opinion} = Accounts.update_opinion(scope, opinion, update_attrs)
+      assert opinion.ratin == 43
+      assert opinion.opinion_text == "some updated opinion_text"
+    end
+
+    test "update_opinion/3 with invalid scope raises" do
+      scope = user_scope_fixture()
+      other_scope = user_scope_fixture()
+      opinion = opinion_fixture(scope)
+
+      assert_raise MatchError, fn ->
+        Accounts.update_opinion(other_scope, opinion, %{})
+      end
+    end
+
+    test "update_opinion/3 with invalid data returns error changeset" do
+      scope = user_scope_fixture()
+      opinion = opinion_fixture(scope)
+      assert {:error, %Ecto.Changeset{}} = Accounts.update_opinion(scope, opinion, @invalid_attrs)
+      assert opinion == Accounts.get_opinion!(scope, opinion.id)
+    end
+
+    test "delete_opinion/2 deletes the opinion" do
+      scope = user_scope_fixture()
+      opinion = opinion_fixture(scope)
+      assert {:ok, %Opinion{}} = Accounts.delete_opinion(scope, opinion)
+      assert_raise Ecto.NoResultsError, fn -> Accounts.get_opinion!(scope, opinion.id) end
+    end
+
+    test "delete_opinion/2 with invalid scope raises" do
+      scope = user_scope_fixture()
+      other_scope = user_scope_fixture()
+      opinion = opinion_fixture(scope)
+      assert_raise MatchError, fn -> Accounts.delete_opinion(other_scope, opinion) end
+    end
+
+    test "change_opinion/2 returns a opinion changeset" do
+      scope = user_scope_fixture()
+      opinion = opinion_fixture(scope)
+      assert %Ecto.Changeset{} = Accounts.change_opinion(scope, opinion)
+    end
+  end
 end

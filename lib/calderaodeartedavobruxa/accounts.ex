@@ -294,4 +294,143 @@ defmodule Calderaodeartedavobruxa.Accounts do
       end
     end)
   end
+
+  alias Calderaodeartedavobruxa.Accounts.Opinion
+  alias Calderaodeartedavobruxa.Accounts.Scope
+
+  @doc """
+  Subscribes to scoped notifications about any opinion changes.
+
+  The broadcasted messages match the pattern:
+
+    * {:created, %Opinion{}}
+    * {:updated, %Opinion{}}
+    * {:deleted, %Opinion{}}
+
+  """
+  def subscribe_opinions(%Scope{} = scope) do
+    key = scope.user.id
+
+    Phoenix.PubSub.subscribe(Calderaodeartedavobruxa.PubSub, "user:#{key}:opinions")
+  end
+
+  defp broadcast_opinion(%Scope{} = scope, message) do
+    key = scope.user.id
+
+    Phoenix.PubSub.broadcast(Calderaodeartedavobruxa.PubSub, "user:#{key}:opinions", message)
+  end
+
+  @doc """
+  Returns the list of opinions.
+
+  ## Examples
+
+      iex> list_opinions(scope)
+      [%Opinion{}, ...]
+
+  """
+  def list_opinions(%Scope{} = scope) do
+    Repo.all_by(Opinion, user_id: scope.user.id)
+  end
+
+  @doc """
+  Gets a single opinion.
+
+  Raises `Ecto.NoResultsError` if the Opinion does not exist.
+
+  ## Examples
+
+      iex> get_opinion!(scope, 123)
+      %Opinion{}
+
+      iex> get_opinion!(scope, 456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_opinion!(%Scope{} = scope, id) do
+    Repo.get_by!(Opinion, id: id, user_id: scope.user.id)
+  end
+
+  @doc """
+  Creates a opinion.
+
+  ## Examples
+
+      iex> create_opinion(scope, %{field: value})
+      {:ok, %Opinion{}}
+
+      iex> create_opinion(scope, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_opinion(%Scope{} = scope, attrs) do
+    with {:ok, opinion = %Opinion{}} <-
+           %Opinion{}
+           |> Opinion.changeset(attrs, scope)
+           |> Repo.insert() do
+      broadcast_opinion(scope, {:created, opinion})
+      {:ok, opinion}
+    end
+  end
+
+  @doc """
+  Updates a opinion.
+
+  ## Examples
+
+      iex> update_opinion(scope, opinion, %{field: new_value})
+      {:ok, %Opinion{}}
+
+      iex> update_opinion(scope, opinion, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_opinion(%Scope{} = scope, %Opinion{} = opinion, attrs) do
+    true = opinion.user_id == scope.user.id
+
+    with {:ok, opinion = %Opinion{}} <-
+           opinion
+           |> Opinion.changeset(attrs, scope)
+           |> Repo.update() do
+      broadcast_opinion(scope, {:updated, opinion})
+      {:ok, opinion}
+    end
+  end
+
+  @doc """
+  Deletes a opinion.
+
+  ## Examples
+
+      iex> delete_opinion(scope, opinion)
+      {:ok, %Opinion{}}
+
+      iex> delete_opinion(scope, opinion)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_opinion(%Scope{} = scope, %Opinion{} = opinion) do
+    true = opinion.user_id == scope.user.id
+
+    with {:ok, opinion = %Opinion{}} <-
+           Repo.delete(opinion) do
+      broadcast_opinion(scope, {:deleted, opinion})
+      {:ok, opinion}
+    end
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking opinion changes.
+
+  ## Examples
+
+      iex> change_opinion(scope, opinion)
+      %Ecto.Changeset{data: %Opinion{}}
+
+  """
+  def change_opinion(%Scope{} = scope, %Opinion{} = opinion, attrs \\ %{}) do
+    true = opinion.user_id == scope.user.id
+
+    Opinion.changeset(opinion, attrs, scope)
+  end
 end

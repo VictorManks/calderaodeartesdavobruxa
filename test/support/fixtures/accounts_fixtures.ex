@@ -92,4 +92,18 @@ defmodule Calderaodeartedavobruxa.AccountsFixtures do
       set: [inserted_at: dt, authenticated_at: dt]
     )
   end
+
+  @doc """
+  Generate a opinion.
+  """
+  def opinion_fixture(scope, attrs \\ %{}) do
+    attrs =
+      Enum.into(attrs, %{
+        opinion_text: "some opinion_text",
+        ratin: 42
+      })
+
+    {:ok, opinion} = Calderaodeartedavobruxa.Accounts.create_opinion(scope, attrs)
+    opinion
+  end
 end

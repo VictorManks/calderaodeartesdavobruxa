@@ -70,6 +70,11 @@ defmodule CalderaodeartedavobruxaWeb.Router do
       on_mount: [{CalderaodeartedavobruxaWeb.UserAuth, :require_authenticated}] do
       live "/users/settings", UserLive.Settings, :edit
       live "/users/settings/confirm-email/:token", UserLive.Settings, :confirm_email
+
+      live "/opinions", OpinionLive.Index, :index
+      live "/opinions/new", OpinionLive.Form, :new
+      live "/opinions/:id", OpinionLive.Show, :show
+      live "/opinions/:id/edit", OpinionLive.Form, :edit
     end
 
     post "/users/update-password", UserSessionController, :update_password
