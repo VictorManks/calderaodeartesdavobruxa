@@ -1,9 +1,9 @@
-defmodule CalderaodeartedavobruxaWeb.UserLive.SettingsTest do
-  use CalderaodeartedavobruxaWeb.ConnCase, async: true
+defmodule CalderaodeartesdavobruxaWeb.UserLive.SettingsTest do
+  use CalderaodeartesdavobruxaWeb.ConnCase, async: true
 
-  alias Calderaodeartedavobruxa.Accounts
+  alias Calderaodeartesdavobruxa.Accounts
   import Phoenix.LiveViewTest
-  import Calderaodeartedavobruxa.AccountsFixtures
+  import Calderaodeartesdavobruxa.AccountsFixtures
 
   describe "Settings page" do
     test "renders settings page", %{conn: conn} do

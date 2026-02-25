@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="csrf-token" content={get_csrf_token()} />
+    <.live_title default="Calderaodeartesdavobruxa" suffix=" · Phoenix Framework">
+      {assigns[:page_title]}
+    </.live_title>
+    <link phx-track-static rel="stylesheet" href={~p"/assets/css/app.css"} />
+    <script defer phx-track-static type="text/javascript" src={~p"/assets/js/app.js"}>
+    </script>
+    <script>
+      (() => {
+        const setTheme = (theme) => {
+          if (theme === "system") {
+            localStorage.removeItem("phx:theme");
+            document.documentElement.removeAttribute("data-theme");
+          } else {
+            localStorage.setItem("phx:theme", theme);
+            document.documentElement.setAttribute("data-theme", theme);
+          }
+        };
+        if (!document.documentElement.hasAttribute("data-theme")) {
+          setTheme(localStorage.getItem("phx:theme") || "system");
+        }
+        window.addEventListener("storage", (e) => e.key === "phx:theme" && setTheme(e.newValue || "system"));
+
+        window.addEventListener("phx:set-theme", (e) => setTheme(e.target.dataset.phxTheme));
+      })();
+    </script>
+  </head>
+  <body>
+    <div class="drawer lg:drawer-open">
+      <input id="sidebar-drawer" type="checkbox" class="drawer-toggle" />
+
+      <div class="drawer-content flex flex-col min-h-screen">
+        <div class="navbar bg-base-100 border-b border-base-200 px-4 sm:px-6 lg:px-8">
+          <div class="flex-none lg:hidden">
+            <label for="sidebar-drawer" class="btn btn-ghost btn-square">
+              <.icon name="hero-bars-3" class="size-5" />
+            </label>
+          </div>
+          <div class="flex-1" />
+          <ul class="menu menu-horizontal flex items-center gap-2">
+            <%= if @current_scope do %>
+              <li>
+                <span class="text-sm opacity-70">{@current_scope.user.email}</span>
+              </li>
+              <li>
+                <.theme_toggle />
+              </li>
+              <li>
+                <.link href={~p"/users/settings"}>Settings</.link>
+              </li>
+              <li>
+                <.link href={~p"/users/log-out"} method="delete">Log out</.link>
+              </li>
+            <% else %>
+              <li>
+                <.theme_toggle />
+              </li>
+              <li>
+                <.link href={~p"/users/register"}>Register</.link>
+              </li>
+              <li>
+                <.link href={~p"/users/log-in"}>Log in</.link>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+
+        {@inner_content}
+      </div>
+
+      <div class="drawer-side z-40">
+        <label for="sidebar-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
+        <aside class="bg-base-200 min-h-full w-64 flex flex-col">
+          <div class="px-4 py-5">
+            <a href="/" class="flex items-center gap-2">
+              <img src={~p"/images/logo.svg"} width="32" />
+              <span class="font-semibold text-sm">Caldeirão de Arte</span>
+            </a>
+          </div>
+          <ul class="menu menu-lg flex-1 px-3">
+            <li>
+              <.link href={~p"/"}>
+                <.icon name="hero-home" class="size-5" />
+                Home
+              </.link>
+            </li>
+            <li>
+              <.link href={~p"/artworks"}>
+                <.icon name="hero-photo" class="size-5" />
+                Galeria
+              </.link>
+            </li>
+            <%= if @current_scope do %>
+              <li>
+                <.link href={~p"/opinions"}>
+                  <.icon name="hero-chat-bubble-left-right" class="size-5" />
+                  Opiniões
+                </.link>
+              </li>
+            <% end %>
+          </ul>
+          <%= if @current_scope do %>
+            <div class="p-3 border-t border-base-300">
+              <.link href={~p"/users/settings"} class="btn btn-ghost btn-square" title="Configurações">
+                <.icon name="hero-cog-6-tooth" class="size-5" />
+              </.link>
+            </div>
+          <% end %>
+        </aside>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,4 +1,4 @@
-defmodule Calderaodeartedavobruxa.Repo.Migrations.CreateArtworks do
+defmodule Calderaodeartesdavobruxa.Repo.Migrations.CreateArtworks do
   use Ecto.Migration
 
   def change do

@@ -1,8 +1,8 @@
-defmodule CalderaodeartedavobruxaWeb.UserLive.RegistrationTest do
-  use CalderaodeartedavobruxaWeb.ConnCase, async: true
+defmodule CalderaodeartesdavobruxaWeb.UserLive.RegistrationTest do
+  use CalderaodeartesdavobruxaWeb.ConnCase, async: true
 
   import Phoenix.LiveViewTest
-  import Calderaodeartedavobruxa.AccountsFixtures
+  import Calderaodeartesdavobruxa.AccountsFixtures
 
   describe "Registration page" do
     test "renders registration page", %{conn: conn} do

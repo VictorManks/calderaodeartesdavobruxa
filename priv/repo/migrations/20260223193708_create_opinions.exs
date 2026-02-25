@@ -1,4 +1,4 @@
-defmodule Calderaodeartedavobruxa.Repo.Migrations.CreateOpinions do
+defmodule Calderaodeartesdavobruxa.Repo.Migrations.CreateOpinions do
   use Ecto.Migration
 
   def change do

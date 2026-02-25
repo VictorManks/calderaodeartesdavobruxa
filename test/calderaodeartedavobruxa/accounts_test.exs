@@ -1,10 +1,10 @@
-defmodule Calderaodeartedavobruxa.AccountsTest do
-  use Calderaodeartedavobruxa.DataCase
+defmodule Calderaodeartesdavobruxa.AccountsTest do
+  use Calderaodeartesdavobruxa.DataCase
 
-  alias Calderaodeartedavobruxa.Accounts
+  alias Calderaodeartesdavobruxa.Accounts
 
-  import Calderaodeartedavobruxa.AccountsFixtures
-  alias Calderaodeartedavobruxa.Accounts.{User, UserToken}
+  import Calderaodeartesdavobruxa.AccountsFixtures
+  alias Calderaodeartesdavobruxa.Accounts.{User, UserToken}
 
   describe "get_user_by_email/1" do
     test "does not return the user if the email does not exist" do
@@ -396,10 +396,10 @@ defmodule Calderaodeartedavobruxa.AccountsTest do
   end
 
   describe "opinions" do
-    alias Calderaodeartedavobruxa.Accounts.Opinion
+    alias Calderaodeartesdavobruxa.Accounts.Opinion
 
-    import Calderaodeartedavobruxa.AccountsFixtures, only: [user_scope_fixture: 0]
-    import Calderaodeartedavobruxa.AccountsFixtures
+    import Calderaodeartesdavobruxa.AccountsFixtures, only: [user_scope_fixture: 0]
+    import Calderaodeartesdavobruxa.AccountsFixtures
 
     @invalid_attrs %{ratin: nil, opinion_text: nil}
 

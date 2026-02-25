@@ -1,13 +1,13 @@
-defmodule Calderaodeartedavobruxa.AccountsFixtures do
+defmodule Calderaodeartesdavobruxa.AccountsFixtures do
   @moduledoc """
   This module defines test helpers for creating
-  entities via the `Calderaodeartedavobruxa.Accounts` context.
+  entities via the `Calderaodeartesdavobruxa.Accounts` context.
   """
 
   import Ecto.Query
 
-  alias Calderaodeartedavobruxa.Accounts
-  alias Calderaodeartedavobruxa.Accounts.Scope
+  alias Calderaodeartesdavobruxa.Accounts
+  alias Calderaodeartesdavobruxa.Accounts.Scope
 
   def unique_user_email, do: "user#{System.unique_integer()}@example.com"
   def valid_user_password, do: "hello world!"
@@ -43,7 +43,7 @@ defmodule Calderaodeartedavobruxa.AccountsFixtures do
 
   def admin_user_fixture(attrs \\ %{}) do
     user = user_fixture(attrs)
-    {:ok, user} = user |> Ecto.Changeset.change(role: :admin) |> Calderaodeartedavobruxa.Repo.update()
+    {:ok, user} = user |> Ecto.Changeset.change(role: :admin) |> Calderaodeartesdavobruxa.Repo.update()
     user
   end
 
@@ -70,7 +70,7 @@ defmodule Calderaodeartedavobruxa.AccountsFixtures do
   end
 
   def override_token_authenticated_at(token, authenticated_at) when is_binary(token) do
-    Calderaodeartedavobruxa.Repo.update_all(
+    Calderaodeartesdavobruxa.Repo.update_all(
       from(t in Accounts.UserToken,
         where: t.token == ^token
       ),
@@ -80,14 +80,14 @@ defmodule Calderaodeartedavobruxa.AccountsFixtures do
 
   def generate_user_magic_link_token(user) do
     {encoded_token, user_token} = Accounts.UserToken.build_email_token(user, "login")
-    Calderaodeartedavobruxa.Repo.insert!(user_token)
+    Calderaodeartesdavobruxa.Repo.insert!(user_token)
     {encoded_token, user_token.token}
   end
 
   def offset_user_token(token, amount_to_add, unit) do
     dt = DateTime.add(DateTime.utc_now(:second), amount_to_add, unit)
 
-    Calderaodeartedavobruxa.Repo.update_all(
+    Calderaodeartesdavobruxa.Repo.update_all(
       from(ut in Accounts.UserToken, where: ut.token == ^token),
       set: [inserted_at: dt, authenticated_at: dt]
     )
@@ -103,7 +103,7 @@ defmodule Calderaodeartedavobruxa.AccountsFixtures do
         ratin: 42
       })
 
-    {:ok, opinion} = Calderaodeartedavobruxa.Accounts.create_opinion(scope, attrs)
+    {:ok, opinion} = Calderaodeartesdavobruxa.Accounts.create_opinion(scope, attrs)
     opinion
   end
 end

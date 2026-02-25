@@ -1,5 +1,5 @@
-defmodule CalderaodeartedavobruxaWeb.PageControllerTest do
-  use CalderaodeartedavobruxaWeb.ConnCase
+defmodule CalderaodeartesdavobruxaWeb.PageControllerTest do
+  use CalderaodeartesdavobruxaWeb.ConnCase
 
   test "GET /", %{conn: conn} do
     conn = get(conn, ~p"/")

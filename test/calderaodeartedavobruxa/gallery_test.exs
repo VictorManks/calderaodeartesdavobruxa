@@ -1,12 +1,12 @@
-defmodule Calderaodeartedavobruxa.GalleryTest do
-  use Calderaodeartedavobruxa.DataCase
+defmodule Calderaodeartesdavobruxa.GalleryTest do
+  use Calderaodeartesdavobruxa.DataCase
 
-  alias Calderaodeartedavobruxa.Gallery
+  alias Calderaodeartesdavobruxa.Gallery
 
   describe "artworks" do
-    alias Calderaodeartedavobruxa.Gallery.Artwork
+    alias Calderaodeartesdavobruxa.Gallery.Artwork
 
-    import Calderaodeartedavobruxa.GalleryFixtures
+    import Calderaodeartesdavobruxa.GalleryFixtures
 
     @invalid_attrs %{name: nil, description: nil, depth: nil, width: nil, category: nil, style: nil, subcategory: nil, materials: nil, height: nil, weight: nil, sent_price: nil, img: nil}
 

@@ -1,9 +1,9 @@
-defmodule Calderaodeartedavobruxa.MixProject do
+defmodule Calderaodeartesdavobruxa.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :calderaodeartedavobruxa,
+      app: :calderaodeartesdavobruxa,
       version: "0.1.0",
       elixir: "~> 1.15",
       elixirc_paths: elixirc_paths(Mix.env()),
@@ -20,7 +20,7 @@ defmodule Calderaodeartedavobruxa.MixProject do
   # Type `mix help compile.app` for more information.
   def application do
     [
-      mod: {Calderaodeartedavobruxa.Application, []},
+      mod: {Calderaodeartesdavobruxa.Application, []},
       extra_applications: [:logger, :runtime_tools]
     ]
   end
@@ -83,10 +83,10 @@ defmodule Calderaodeartedavobruxa.MixProject do
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
       "assets.setup": ["tailwind.install --if-missing", "esbuild.install --if-missing"],
-      "assets.build": ["compile", "tailwind calderaodeartedavobruxa", "esbuild calderaodeartedavobruxa"],
+      "assets.build": ["compile", "tailwind calderaodeartesdavobruxa", "esbuild calderaodeartesdavobruxa"],
       "assets.deploy": [
-        "tailwind calderaodeartedavobruxa --minify",
-        "esbuild calderaodeartedavobruxa --minify",
+        "tailwind calderaodeartesdavobruxa --minify",
+        "esbuild calderaodeartesdavobruxa --minify",
         "phx.digest"
       ],
       precommit: ["compile --warnings-as-errors", "deps.unlock --unused", "format", "test"]

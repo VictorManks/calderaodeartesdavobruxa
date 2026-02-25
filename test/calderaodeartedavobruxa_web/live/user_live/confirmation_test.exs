@@ -1,10 +1,10 @@
-defmodule CalderaodeartedavobruxaWeb.UserLive.ConfirmationTest do
-  use CalderaodeartedavobruxaWeb.ConnCase, async: true
+defmodule CalderaodeartesdavobruxaWeb.UserLive.ConfirmationTest do
+  use CalderaodeartesdavobruxaWeb.ConnCase, async: true
 
   import Phoenix.LiveViewTest
-  import Calderaodeartedavobruxa.AccountsFixtures
+  import Calderaodeartesdavobruxa.AccountsFixtures
 
-  alias Calderaodeartedavobruxa.Accounts
+  alias Calderaodeartesdavobruxa.Accounts
 
   setup do
     %{unconfirmed_user: unconfirmed_user_fixture(), confirmed_user: user_fixture()}

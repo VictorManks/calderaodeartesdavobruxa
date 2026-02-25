@@ -1,7 +1,7 @@
-defmodule Calderaodeartedavobruxa.GalleryFixtures do
+defmodule Calderaodeartesdavobruxa.GalleryFixtures do
   @moduledoc """
   This module defines test helpers for creating
-  entities via the `Calderaodeartedavobruxa.Gallery` context.
+  entities via the `Calderaodeartesdavobruxa.Gallery` context.
   """
 
   @doc """
@@ -24,7 +24,7 @@ defmodule Calderaodeartedavobruxa.GalleryFixtures do
         weight: 120.5,
         width: 120.5
       })
-      |> Calderaodeartedavobruxa.Gallery.create_artwork()
+      |> Calderaodeartesdavobruxa.Gallery.create_artwork()
 
     artwork
   end

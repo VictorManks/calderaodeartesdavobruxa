@@ -1,8 +1,8 @@
-defmodule CalderaodeartedavobruxaWeb.UserLive.LoginTest do
-  use CalderaodeartedavobruxaWeb.ConnCase, async: true
+defmodule CalderaodeartesdavobruxaWeb.UserLive.LoginTest do
+  use CalderaodeartesdavobruxaWeb.ConnCase, async: true
 
   import Phoenix.LiveViewTest
-  import Calderaodeartedavobruxa.AccountsFixtures
+  import Calderaodeartesdavobruxa.AccountsFixtures
 
   describe "login page" do
     test "renders login page", %{conn: conn} do
@@ -27,7 +27,7 @@ defmodule CalderaodeartedavobruxaWeb.UserLive.LoginTest do
 
       assert html =~ "If your email is in our system"
 
-      assert Calderaodeartedavobruxa.Repo.get_by!(Calderaodeartedavobruxa.Accounts.UserToken, user_id: user.id).context ==
+      assert Calderaodeartesdavobruxa.Repo.get_by!(Calderaodeartesdavobruxa.Accounts.UserToken, user_id: user.id).context ==
                "login"
     end
 

@@ -1,8 +1,8 @@
-defmodule CalderaodeartedavobruxaWeb.OpinionLiveTest do
-  use CalderaodeartedavobruxaWeb.ConnCase
+defmodule CalderaodeartesdavobruxaWeb.OpinionLiveTest do
+  use CalderaodeartesdavobruxaWeb.ConnCase
 
   import Phoenix.LiveViewTest
-  import Calderaodeartedavobruxa.AccountsFixtures
+  import Calderaodeartesdavobruxa.AccountsFixtures
 
   @create_attrs %{ratin: 42, opinion_text: "some opinion_text"}
   @update_attrs %{ratin: 43, opinion_text: "some updated opinion_text"}

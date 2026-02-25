@@ -1,20 +1,20 @@
-defmodule CalderaodeartedavobruxaWeb.UserAuthTest do
-  use CalderaodeartedavobruxaWeb.ConnCase, async: true
+defmodule CalderaodeartesdavobruxaWeb.UserAuthTest do
+  use CalderaodeartesdavobruxaWeb.ConnCase, async: true
 
   alias Phoenix.LiveView
-  alias Calderaodeartedavobruxa.Accounts
-  alias Calderaodeartedavobruxa.Accounts.Scope
-  alias CalderaodeartedavobruxaWeb.UserAuth
+  alias Calderaodeartesdavobruxa.Accounts
+  alias Calderaodeartesdavobruxa.Accounts.Scope
+  alias CalderaodeartesdavobruxaWeb.UserAuth
 
-  import Calderaodeartedavobruxa.AccountsFixtures
+  import Calderaodeartesdavobruxa.AccountsFixtures
 
-  @remember_me_cookie "_calderaodeartedavobruxa_web_user_remember_me"
+  @remember_me_cookie "_calderaodeartesdavobruxa_web_user_remember_me"
   @remember_me_cookie_max_age 60 * 60 * 24 * 14
 
   setup %{conn: conn} do
     conn =
       conn
-      |> Map.replace!(:secret_key_base, CalderaodeartedavobruxaWeb.Endpoint.config(:secret_key_base))
+      |> Map.replace!(:secret_key_base, CalderaodeartesdavobruxaWeb.Endpoint.config(:secret_key_base))
       |> init_test_session(%{})
 
     %{user: %{user_fixture() | authenticated_at: DateTime.utc_now(:second)}, conn: conn}
@@ -91,7 +91,7 @@ defmodule CalderaodeartedavobruxaWeb.UserAuthTest do
       conn =
         conn
         |> recycle()
-        |> Map.replace!(:secret_key_base, CalderaodeartedavobruxaWeb.Endpoint.config(:secret_key_base))
+        |> Map.replace!(:secret_key_base, CalderaodeartesdavobruxaWeb.Endpoint.config(:secret_key_base))
         |> fetch_cookies()
         |> init_test_session(%{user_remember_me: true})
 
@@ -126,7 +126,7 @@ defmodule CalderaodeartedavobruxaWeb.UserAuthTest do
 
     test "broadcasts to the given live_socket_id", %{conn: conn} do
       live_socket_id = "users_sessions:abcdef-token"
-      CalderaodeartedavobruxaWeb.Endpoint.subscribe(live_socket_id)
+      CalderaodeartesdavobruxaWeb.Endpoint.subscribe(live_socket_id)
 
       conn
       |> put_session(:live_socket_id, live_socket_id)
@@ -261,7 +261,7 @@ defmodule CalderaodeartedavobruxaWeb.UserAuthTest do
       session = conn |> put_session(:user_token, user_token) |> get_session()
 
       socket = %LiveView.Socket{
-        endpoint: CalderaodeartedavobruxaWeb.Endpoint,
+        endpoint: CalderaodeartesdavobruxaWeb.Endpoint,
         assigns: %{__changed__: %{}, flash: %{}}
       }
 
@@ -273,7 +273,7 @@ defmodule CalderaodeartedavobruxaWeb.UserAuthTest do
       session = conn |> get_session()
 
       socket = %LiveView.Socket{
-        endpoint: CalderaodeartedavobruxaWeb.Endpoint,
+        endpoint: CalderaodeartesdavobruxaWeb.Endpoint,
         assigns: %{__changed__: %{}, flash: %{}}
       }
 
@@ -288,7 +288,7 @@ defmodule CalderaodeartedavobruxaWeb.UserAuthTest do
       session = conn |> put_session(:user_token, user_token) |> get_session()
 
       socket = %LiveView.Socket{
-        endpoint: CalderaodeartedavobruxaWeb.Endpoint,
+        endpoint: CalderaodeartesdavobruxaWeb.Endpoint,
         assigns: %{__changed__: %{}, flash: %{}}
       }
 
@@ -305,7 +305,7 @@ defmodule CalderaodeartedavobruxaWeb.UserAuthTest do
       session = conn |> put_session(:user_token, user_token) |> get_session()
 
       socket = %LiveView.Socket{
-        endpoint: CalderaodeartedavobruxaWeb.Endpoint,
+        endpoint: CalderaodeartesdavobruxaWeb.Endpoint,
         assigns: %{__changed__: %{}, flash: %{}}
       }
 
@@ -371,7 +371,7 @@ defmodule CalderaodeartedavobruxaWeb.UserAuthTest do
       tokens = [%{token: "token1"}, %{token: "token2"}]
 
       for %{token: token} <- tokens do
-        CalderaodeartedavobruxaWeb.Endpoint.subscribe("users_sessions:#{Base.url_encode64(token)}")
+        CalderaodeartesdavobruxaWeb.Endpoint.subscribe("users_sessions:#{Base.url_encode64(token)}")
       end
 
       UserAuth.disconnect_sessions(tokens)

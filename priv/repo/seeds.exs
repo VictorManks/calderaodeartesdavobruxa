@@ -5,13 +5,13 @@
 # Inside the script, you can read and write to any of your
 # repositories directly:
 #
-#     Calderaodeartedavobruxa.Repo.insert!(%Calderaodeartedavobruxa.SomeSchema{})
+#     Calderaodeartesdavobruxa.Repo.insert!(%Calderaodeartesdavobruxa.SomeSchema{})
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
 
-alias Calderaodeartedavobruxa.Accounts.User
-alias Calderaodeartedavobruxa.Repo
+alias Calderaodeartesdavobruxa.Accounts.User
+alias Calderaodeartesdavobruxa.Repo
 
 %User{}
 |> User.email_changeset(%{email: "victorfdefariaq@gmail.com"}, validate_unique: false)

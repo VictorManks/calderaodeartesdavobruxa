@@ -1,8 +1,8 @@
-defmodule CalderaodeartedavobruxaWeb.ArtworkLiveTest do
-  use CalderaodeartedavobruxaWeb.ConnCase
+defmodule CalderaodeartesdavobruxaWeb.ArtworkLiveTest do
+  use CalderaodeartesdavobruxaWeb.ConnCase
 
   import Phoenix.LiveViewTest
-  import Calderaodeartedavobruxa.GalleryFixtures
+  import Calderaodeartesdavobruxa.GalleryFixtures
 
   @create_attrs %{name: "some name", description: "some description", depth: 120.5, width: 120.5, category: "some category", style: "some style", subcategory: "some subcategory", materials: "some materials", height: 120.5, weight: 120.5, sent_price: 42, img: "some img"}
   @update_attrs %{name: "some updated name", description: "some updated description", depth: 456.7, width: 456.7, category: "some updated category", style: "some updated style", subcategory: "some updated subcategory", materials: "some updated materials", height: 456.7, weight: 456.7, sent_price: 43, img: "some updated img"}

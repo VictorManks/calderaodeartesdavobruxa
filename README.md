@@ -1,4 +1,4 @@
-# Calderaodeartedavobruxa
+# Calderaodeartesdavobruxa
 
 To start your Phoenix server:
 

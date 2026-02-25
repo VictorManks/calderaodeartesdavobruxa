@@ -1,4 +1,4 @@
-defmodule CalderaodeartedavobruxaWeb.ConnCase do
+defmodule CalderaodeartesdavobruxaWeb.ConnCase do
   @moduledoc """
   This module defines the test case to be used by
   tests that require setting up a connection.
@@ -11,7 +11,7 @@ defmodule CalderaodeartedavobruxaWeb.ConnCase do
   we enable the SQL sandbox, so changes done to the database
   are reverted at the end of every test. If you are using
   PostgreSQL, you can even run database tests asynchronously
-  by setting `use CalderaodeartedavobruxaWeb.ConnCase, async: true`, although
+  by setting `use CalderaodeartesdavobruxaWeb.ConnCase, async: true`, although
   this option is not recommended for other databases.
   """
 
@@ -20,19 +20,19 @@ defmodule CalderaodeartedavobruxaWeb.ConnCase do
   using do
     quote do
       # The default endpoint for testing
-      @endpoint CalderaodeartedavobruxaWeb.Endpoint
+      @endpoint CalderaodeartesdavobruxaWeb.Endpoint
 
-      use CalderaodeartedavobruxaWeb, :verified_routes
+      use CalderaodeartesdavobruxaWeb, :verified_routes
 
       # Import conveniences for testing with connections
       import Plug.Conn
       import Phoenix.ConnTest
-      import CalderaodeartedavobruxaWeb.ConnCase
+      import CalderaodeartesdavobruxaWeb.ConnCase
     end
   end
 
   setup tags do
-    Calderaodeartedavobruxa.DataCase.setup_sandbox(tags)
+    Calderaodeartesdavobruxa.DataCase.setup_sandbox(tags)
     {:ok, conn: Phoenix.ConnTest.build_conn()}
   end
 
@@ -45,8 +45,8 @@ defmodule CalderaodeartedavobruxaWeb.ConnCase do
   test context.
   """
   def register_and_log_in_user(%{conn: conn} = context) do
-    user = Calderaodeartedavobruxa.AccountsFixtures.user_fixture()
-    scope = Calderaodeartedavobruxa.Accounts.Scope.for_user(user)
+    user = Calderaodeartesdavobruxa.AccountsFixtures.user_fixture()
+    scope = Calderaodeartesdavobruxa.Accounts.Scope.for_user(user)
 
     opts =
       context
@@ -57,8 +57,8 @@ defmodule CalderaodeartedavobruxaWeb.ConnCase do
   end
 
   def register_and_log_in_admin(%{conn: conn} = context) do
-    user = Calderaodeartedavobruxa.AccountsFixtures.admin_user_fixture()
-    scope = Calderaodeartedavobruxa.Accounts.Scope.for_user(user)
+    user = Calderaodeartesdavobruxa.AccountsFixtures.admin_user_fixture()
+    scope = Calderaodeartesdavobruxa.Accounts.Scope.for_user(user)
 
     opts =
       context
@@ -74,7 +74,7 @@ defmodule CalderaodeartedavobruxaWeb.ConnCase do
   It returns an updated `conn`.
   """
   def log_in_user(conn, user, opts \\ []) do
-    token = Calderaodeartedavobruxa.Accounts.generate_user_session_token(user)
+    token = Calderaodeartesdavobruxa.Accounts.generate_user_session_token(user)
 
     maybe_set_token_authenticated_at(token, opts[:token_authenticated_at])
 
@@ -86,6 +86,6 @@ defmodule CalderaodeartedavobruxaWeb.ConnCase do
   defp maybe_set_token_authenticated_at(_token, nil), do: nil
 
   defp maybe_set_token_authenticated_at(token, authenticated_at) do
-    Calderaodeartedavobruxa.AccountsFixtures.override_token_authenticated_at(token, authenticated_at)
+    Calderaodeartesdavobruxa.AccountsFixtures.override_token_authenticated_at(token, authenticated_at)
   end
 end

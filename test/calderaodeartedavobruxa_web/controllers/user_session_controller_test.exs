@@ -1,8 +1,8 @@
-defmodule CalderaodeartedavobruxaWeb.UserSessionControllerTest do
-  use CalderaodeartedavobruxaWeb.ConnCase, async: true
+defmodule CalderaodeartesdavobruxaWeb.UserSessionControllerTest do
+  use CalderaodeartesdavobruxaWeb.ConnCase, async: true
 
-  import Calderaodeartedavobruxa.AccountsFixtures
-  alias Calderaodeartedavobruxa.Accounts
+  import Calderaodeartesdavobruxa.AccountsFixtures
+  alias Calderaodeartesdavobruxa.Accounts
 
   setup do
     %{unconfirmed_user: unconfirmed_user_fixture(), user: user_fixture()}
@@ -40,7 +40,7 @@ defmodule CalderaodeartedavobruxaWeb.UserSessionControllerTest do
           }
         })
 
-      assert conn.resp_cookies["_calderaodeartedavobruxa_web_user_remember_me"]
+      assert conn.resp_cookies["_calderaodeartesdavobruxa_web_user_remember_me"]
       assert redirected_to(conn) == ~p"/"
     end
 
