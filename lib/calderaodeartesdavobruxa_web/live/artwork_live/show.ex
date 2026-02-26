@@ -3,6 +3,8 @@ defmodule CalderaodeartesdavobruxaWeb.ArtworkLive.Show do
 
   alias Calderaodeartesdavobruxa.Gallery
   alias Calderaodeartesdavobruxa.Accounts
+  alias Calderaodeartesdavobruxa.Accounts.Opinion
+  import CalderaodeartesdavobruxaWeb.OpinionComponents
 
   @impl true
   def render(assigns) do
@@ -135,6 +137,14 @@ defmodule CalderaodeartesdavobruxaWeb.ArtworkLive.Show do
           </div>
         </div>
       </div>
+
+      <%!-- Formulário de nova opinião (somente para usuários logados) --%>
+      <.opinion_form_card
+        :if={@opinion_form}
+        form={@opinion_form}
+        title="Deixe sua opinião"
+        cancel_path={~p"/artworks/#{@artwork}"}
+      />
     </Layouts.app>
     """
   end
@@ -143,17 +153,52 @@ defmodule CalderaodeartesdavobruxaWeb.ArtworkLive.Show do
   def mount(%{"id" => id}, _session, socket) do
     artwork = Gallery.get_artwork!(id)
     opinions = Accounts.list_public_opinions_for_artwork(artwork.id)
+    scope = socket.assigns[:current_scope]
 
     is_admin =
-      socket.assigns[:current_scope] &&
-        socket.assigns.current_scope.user &&
-        socket.assigns.current_scope.user.role == :admin
+      scope && scope.user && scope.user.role == :admin
+
+    opinion_form =
+      if scope && scope.user do
+        new_opinion = %Opinion{user_id: scope.user.id, artwork_id: artwork.id}
+        to_form(Accounts.change_opinion(scope, new_opinion))
+      end
 
     {:ok,
      socket
      |> assign(:page_title, artwork.name)
      |> assign(:artwork, artwork)
      |> assign(:opinions, opinions)
-     |> assign(:is_admin, is_admin)}
+     |> assign(:is_admin, is_admin)
+     |> assign(:opinion_form, opinion_form)}
+  end
+
+  @impl true
+  def handle_event("validate", %{"opinion" => params}, socket) do
+    scope = socket.assigns.current_scope
+    opinion = %Opinion{user_id: scope.user.id, artwork_id: socket.assigns.artwork.id}
+    params = Map.put(params, "artwork_id", socket.assigns.artwork.id)
+    changeset = Accounts.change_opinion(scope, opinion, params)
+    {:noreply, assign(socket, opinion_form: to_form(changeset, action: :validate))}
+  end
+
+  def handle_event("save", %{"opinion" => params}, socket) do
+    scope = socket.assigns.current_scope
+    params = Map.put(params, "artwork_id", socket.assigns.artwork.id)
+
+    case Accounts.create_opinion(scope, params) do
+      {:ok, _opinion} ->
+        opinions = Accounts.list_public_opinions_for_artwork(socket.assigns.artwork.id)
+        new_opinion = %Opinion{user_id: scope.user.id, artwork_id: socket.assigns.artwork.id}
+
+        {:noreply,
+         socket
+         |> put_flash(:info, "Opinião publicada com sucesso")
+         |> assign(:opinions, opinions)
+         |> assign(:opinion_form, to_form(Accounts.change_opinion(scope, new_opinion)))}
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        {:noreply, assign(socket, opinion_form: to_form(changeset))}
+    end
   end
 end

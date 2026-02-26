@@ -4,6 +4,7 @@ defmodule Calderaodeartesdavobruxa.AccountsTest do
   alias Calderaodeartesdavobruxa.Accounts
 
   import Calderaodeartesdavobruxa.AccountsFixtures
+  import Calderaodeartesdavobruxa.GalleryFixtures
   alias Calderaodeartesdavobruxa.Accounts.{User, UserToken}
 
   describe "get_user_by_email/1" do
@@ -408,8 +409,8 @@ defmodule Calderaodeartesdavobruxa.AccountsTest do
       other_scope = user_scope_fixture()
       opinion = opinion_fixture(scope)
       other_opinion = opinion_fixture(other_scope)
-      assert Accounts.list_opinions(scope) == [opinion]
-      assert Accounts.list_opinions(other_scope) == [other_opinion]
+      assert Accounts.list_opinions(scope) |> hd() |> Ecto.reset_fields([:artwork]) == opinion
+      assert Accounts.list_opinions(other_scope) |> hd() |> Ecto.reset_fields([:artwork]) == other_opinion
     end
 
     test "get_opinion!/2 returns the opinion with given id" do
@@ -421,11 +422,13 @@ defmodule Calderaodeartesdavobruxa.AccountsTest do
     end
 
     test "create_opinion/2 with valid data creates a opinion" do
-      valid_attrs = %{ratin: 42, opinion_text: "some opinion_text"}
+      artwork = artwork_fixture()
+
+      valid_attrs = %{ratin: 2, opinion_text: "some opinion_text", artwork_id: artwork.id}
       scope = user_scope_fixture()
 
       assert {:ok, %Opinion{} = opinion} = Accounts.create_opinion(scope, valid_attrs)
-      assert opinion.ratin == 42
+      assert opinion.ratin == 2
       assert opinion.opinion_text == "some opinion_text"
       assert opinion.user_id == scope.user.id
     end
@@ -438,10 +441,10 @@ defmodule Calderaodeartesdavobruxa.AccountsTest do
     test "update_opinion/3 with valid data updates the opinion" do
       scope = user_scope_fixture()
       opinion = opinion_fixture(scope)
-      update_attrs = %{ratin: 43, opinion_text: "some updated opinion_text"}
+      update_attrs = %{ratin: 5, opinion_text: "some updated opinion_text"}
 
       assert {:ok, %Opinion{} = opinion} = Accounts.update_opinion(scope, opinion, update_attrs)
-      assert opinion.ratin == 43
+      assert opinion.ratin == 5
       assert opinion.opinion_text == "some updated opinion_text"
     end
 

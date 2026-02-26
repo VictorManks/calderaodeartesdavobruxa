@@ -97,10 +97,13 @@ defmodule Calderaodeartesdavobruxa.AccountsFixtures do
   Generate a opinion.
   """
   def opinion_fixture(scope, attrs \\ %{}) do
+    artwork = Calderaodeartesdavobruxa.GalleryFixtures.artwork_fixture()
+
     attrs =
       Enum.into(attrs, %{
         opinion_text: "some opinion_text",
-        ratin: 42
+        ratin: 3,
+        artwork_id: artwork.id
       })
 
     {:ok, opinion} = Calderaodeartesdavobruxa.Accounts.create_opinion(scope, attrs)

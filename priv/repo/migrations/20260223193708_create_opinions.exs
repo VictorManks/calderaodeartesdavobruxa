@@ -16,5 +16,7 @@ defmodule Calderaodeartesdavobruxa.Repo.Migrations.CreateOpinions do
     create index(:opinions, [:user_id])
 
     create index(:opinions, [:artwork_id])
+
+    create unique_index(:opinions, [:user_id, :artwork_id])
   end
 end

@@ -3,24 +3,17 @@ defmodule CalderaodeartesdavobruxaWeb.OpinionLive.Form do
 
   alias Calderaodeartesdavobruxa.Accounts
   alias Calderaodeartesdavobruxa.Accounts.Opinion
+  import CalderaodeartesdavobruxaWeb.OpinionComponents
 
   @impl true
   def render(assigns) do
     ~H"""
     <Layouts.app flash={@flash} current_scope={@current_scope}>
-      <.header>
-        {@page_title}
-        <:subtitle>Use this form to manage opinion records in your database.</:subtitle>
-      </.header>
-
-      <.form for={@form} id="opinion-form" phx-change="validate" phx-submit="save">
-        <.input field={@form[:ratin]} type="number" label="Ratin" />
-        <.input field={@form[:opinion_text]} type="textarea" label="Opinion text" />
-        <footer>
-          <.button phx-disable-with="Saving..." variant="primary">Save Opinion</.button>
-          <.button navigate={return_path(@current_scope, @return_to, @opinion)}>Cancel</.button>
-        </footer>
-      </.form>
+      <.opinion_form_card
+        form={@form}
+        title={@page_title}
+        cancel_path={return_path(@current_scope, @return_to, @opinion)}
+      />
     </Layouts.app>
     """
   end
@@ -40,7 +33,7 @@ defmodule CalderaodeartesdavobruxaWeb.OpinionLive.Form do
     opinion = Accounts.get_opinion!(socket.assigns.current_scope, id)
 
     socket
-    |> assign(:page_title, "Edit Opinion")
+    |> assign(:page_title, "Editar Opinião")
     |> assign(:opinion, opinion)
     |> assign(:form, to_form(Accounts.change_opinion(socket.assigns.current_scope, opinion)))
   end
@@ -49,7 +42,7 @@ defmodule CalderaodeartesdavobruxaWeb.OpinionLive.Form do
     opinion = %Opinion{user_id: socket.assigns.current_scope.user.id}
 
     socket
-    |> assign(:page_title, "New Opinion")
+    |> assign(:page_title, "Nova Opinião")
     |> assign(:opinion, opinion)
     |> assign(:form, to_form(Accounts.change_opinion(socket.assigns.current_scope, opinion)))
   end
@@ -69,7 +62,7 @@ defmodule CalderaodeartesdavobruxaWeb.OpinionLive.Form do
       {:ok, opinion} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Opinion updated successfully")
+         |> put_flash(:info, "Opinião atualizada com sucesso")
          |> push_navigate(
            to: return_path(socket.assigns.current_scope, socket.assigns.return_to, opinion)
          )}
@@ -84,7 +77,7 @@ defmodule CalderaodeartesdavobruxaWeb.OpinionLive.Form do
       {:ok, opinion} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Opinion created successfully")
+         |> put_flash(:info, "Opinião publicada com sucesso")
          |> push_navigate(
            to: return_path(socket.assigns.current_scope, socket.assigns.return_to, opinion)
          )}

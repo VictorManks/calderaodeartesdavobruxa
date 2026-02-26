@@ -330,7 +330,39 @@ defmodule Calderaodeartesdavobruxa.Accounts do
 
   """
   def list_opinions(%Scope{} = scope) do
-    Repo.all_by(Opinion, user_id: scope.user.id)
+    Opinion
+    |> where(user_id: ^scope.user.id)
+    |> preload(:artwork)
+    |> Repo.all()
+  end
+
+  @doc """
+  Gets a single opinion without scope restriction (admin use).
+  """
+  def get_opinion_admin!(id), do: Repo.get!(Opinion, id)
+
+  @doc """
+  Deletes an opinion without scope restriction (admin use).
+  """
+  def delete_opinion_admin(%Opinion{} = opinion), do: Repo.delete(opinion)
+
+  @doc """
+  Returns all opinions (admin use), paginated.
+  """
+  def list_all_opinions(page, per_page) do
+    offset = (page - 1) * per_page
+
+    opinions =
+      Opinion
+      |> order_by([o], desc: o.inserted_at)
+      |> limit(^per_page)
+      |> offset(^offset)
+      |> preload(:artwork)
+      |> Repo.all()
+
+    total = Repo.aggregate(Opinion, :count, :id)
+
+    %{opinions: opinions, total: total, page: page, per_page: per_page}
   end
 
   @doc """

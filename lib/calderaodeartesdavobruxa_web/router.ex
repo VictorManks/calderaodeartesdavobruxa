@@ -34,6 +34,8 @@ defmodule CalderaodeartesdavobruxaWeb.Router do
     live_session :require_admin,
       on_mount: [{CalderaodeartesdavobruxaWeb.UserAuth, :require_admin}] do
 
+      live "/admin/opinions", OpinionLive.AdminIndex, :index
+
       live "/artworks/new", ArtworkLive.Form, :new
       live "/artworks/:id/edit", ArtworkLive.Form, :edit
     end

@@ -106,6 +106,15 @@
                 </.link>
               </li>
             <% end %>
+            <%= if @current_scope && @current_scope.user.role == :admin do %>
+              <li class="menu-title text-xs opacity-50 mt-2">Admin</li>
+              <li>
+                <.link href={~p"/admin/opinions"}>
+                  <.icon name="hero-clipboard-document-list" class="size-5" />
+                  Todas as Opiniões
+                </.link>
+              </li>
+            <% end %>
           </ul>
           <%= if @current_scope do %>
             <div class="p-3 border-t border-base-300">
