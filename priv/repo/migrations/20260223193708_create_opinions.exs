@@ -6,6 +6,8 @@ defmodule Calderaodeartesdavobruxa.Repo.Migrations.CreateOpinions do
       add :ratin, :integer
       add :opinion_text, :text
       add :artwork_id, references(:artworks, on_delete: :nothing)
+      add :public, :boolean, default: false, null: false
+
       add :user_id, references(:users, type: :id, on_delete: :delete_all)
 
       timestamps(type: :utc_datetime)

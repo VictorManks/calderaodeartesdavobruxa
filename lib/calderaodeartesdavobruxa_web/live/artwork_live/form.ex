@@ -10,25 +10,26 @@ defmodule CalderaodeartesdavobruxaWeb.ArtworkLive.Form do
     <Layouts.app flash={@flash}>
       <.header>
         {@page_title}
-        <:subtitle>Use this form to manage artwork records in your database.</:subtitle>
+        <:subtitle>Preencha os dados da obra.</:subtitle>
       </.header>
 
       <.form for={@form} id="artwork-form" phx-change="validate" phx-submit="save">
-        <.input field={@form[:name]} type="text" label="Name" />
-        <.input field={@form[:description]} type="textarea" label="Description" />
-        <.input field={@form[:style]} type="text" label="Style" />
-        <.input field={@form[:category]} type="text" label="Category" />
-        <.input field={@form[:subcategory]} type="text" label="Subcategory" />
-        <.input field={@form[:materials]} type="textarea" label="Materials" />
-        <.input field={@form[:width]} type="number" label="Width" step="any" />
-        <.input field={@form[:depth]} type="number" label="Depth" step="any" />
-        <.input field={@form[:height]} type="number" label="Height" step="any" />
-        <.input field={@form[:weight]} type="number" label="Weight" step="any" />
-        <.input field={@form[:sent_price]} type="number" label="Sent price" />
-        <.input field={@form[:img]} type="text" label="Img" />
+        <.input field={@form[:name]} type="text" label="Nome" />
+        <.input field={@form[:description]} type="textarea" label="Descrição" />
+        <.input field={@form[:style]} type="text" label="Estilo" />
+        <.input field={@form[:category]} type="text" label="Categoria" />
+        <.input field={@form[:subcategory]} type="text" label="Subcategoria" />
+        <.input field={@form[:materials]} type="textarea" label="Materiais" />
+        <.input field={@form[:width]} type="number" label="Largura (cm)" step="any" />
+        <.input field={@form[:depth]} type="number" label="Profundidade (cm)" step="any" />
+        <.input field={@form[:height]} type="number" label="Altura (cm)" step="any" />
+        <.input field={@form[:weight]} type="number" label="Peso (kg)" step="any" />
+        <.input field={@form[:sent_price]} type="number" label="Preço" />
+        <.input field={@form[:img]} type="text" label="Link da imagem" />
+        <.input field={@form[:sold]} type="checkbox" label="Vendida" />
         <footer>
-          <.button phx-disable-with="Saving..." variant="primary">Save Artwork</.button>
-          <.button navigate={return_path(@return_to, @artwork)}>Cancel</.button>
+          <.button phx-disable-with="Salvando..." variant="primary">Salvar Obra</.button>
+          <.button navigate={return_path(@return_to, @artwork)}>Cancelar</.button>
         </footer>
       </.form>
     </Layouts.app>
@@ -50,7 +51,7 @@ defmodule CalderaodeartesdavobruxaWeb.ArtworkLive.Form do
     artwork = Gallery.get_artwork!(id)
 
     socket
-    |> assign(:page_title, "Edit Artwork")
+    |> assign(:page_title, "Editar Obra")
     |> assign(:artwork, artwork)
     |> assign(:form, to_form(Gallery.change_artwork(artwork)))
   end
@@ -59,7 +60,7 @@ defmodule CalderaodeartesdavobruxaWeb.ArtworkLive.Form do
     artwork = %Artwork{}
 
     socket
-    |> assign(:page_title, "New Artwork")
+    |> assign(:page_title, "Nova Obra")
     |> assign(:artwork, artwork)
     |> assign(:form, to_form(Gallery.change_artwork(artwork)))
   end
@@ -79,7 +80,7 @@ defmodule CalderaodeartesdavobruxaWeb.ArtworkLive.Form do
       {:ok, artwork} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Artwork updated successfully")
+         |> put_flash(:info, "Obra atualizada com sucesso")
          |> push_navigate(to: return_path(socket.assigns.return_to, artwork))}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -92,7 +93,7 @@ defmodule CalderaodeartesdavobruxaWeb.ArtworkLive.Form do
       {:ok, artwork} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Artwork created successfully")
+         |> put_flash(:info, "Obra criada com sucesso")
          |> push_navigate(to: return_path(socket.assigns.return_to, artwork))}
 
       {:error, %Ecto.Changeset{} = changeset} ->

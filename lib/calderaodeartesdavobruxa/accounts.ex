@@ -334,6 +334,17 @@ defmodule Calderaodeartesdavobruxa.Accounts do
   end
 
   @doc """
+  Returns public opinions for a given artwork_id.
+  """
+  def list_public_opinions_for_artwork(artwork_id) do
+    Repo.all(
+      from o in Opinion,
+        where: o.artwork_id == ^artwork_id and o.public == true,
+        order_by: [desc: o.inserted_at]
+    )
+  end
+
+  @doc """
   Gets a single opinion.
 
   Raises `Ecto.NoResultsError` if the Opinion does not exist.

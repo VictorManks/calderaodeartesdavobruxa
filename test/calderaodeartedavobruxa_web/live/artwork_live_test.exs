@@ -19,31 +19,31 @@ defmodule CalderaodeartesdavobruxaWeb.ArtworkLiveTest do
     test "lists all artworks", %{conn: conn, artwork: artwork} do
       {:ok, _index_live, html} = live(conn, ~p"/artworks")
 
-      assert html =~ "Listing Artworks"
+      assert html =~ "Obras"
       assert html =~ artwork.name
-    end
-
-    test "deletes artwork in listing", %{conn: conn, artwork: artwork} do
-      {:ok, index_live, _html} = live(conn, ~p"/artworks")
-
-      assert index_live |> element("#artworks-#{artwork.id} a", "Delete") |> render_click()
-      refute has_element?(index_live, "#artworks-#{artwork.id}")
     end
   end
 
   describe "Index as admin" do
     setup [:register_and_log_in_admin, :create_artwork]
 
+    test "deletes artwork in listing", %{conn: conn, artwork: artwork} do
+      {:ok, index_live, _html} = live(conn, ~p"/artworks")
+
+      assert index_live |> element("#artworks-#{artwork.id} a[phx-click]") |> render_click()
+      refute has_element?(index_live, "#artworks-#{artwork.id}")
+    end
+
     test "saves new artwork", %{conn: conn} do
       {:ok, index_live, _html} = live(conn, ~p"/artworks")
 
       assert {:ok, form_live, _} =
                index_live
-               |> element("a", "New Artwork")
+               |> element("a", "Nova Obra")
                |> render_click()
                |> follow_redirect(conn, ~p"/artworks/new")
 
-      assert render(form_live) =~ "New Artwork"
+      assert render(form_live) =~ "Nova Obra"
 
       assert form_live
              |> form("#artwork-form", artwork: @invalid_attrs)
@@ -56,7 +56,7 @@ defmodule CalderaodeartesdavobruxaWeb.ArtworkLiveTest do
                |> follow_redirect(conn, ~p"/artworks")
 
       html = render(index_live)
-      assert html =~ "Artwork created successfully"
+      assert html =~ "Obra criada com sucesso"
       assert html =~ "some name"
     end
 
@@ -65,11 +65,11 @@ defmodule CalderaodeartesdavobruxaWeb.ArtworkLiveTest do
 
       assert {:ok, form_live, _html} =
                index_live
-               |> element("#artworks-#{artwork.id} a", "Edit")
+               |> element("#artworks-#{artwork.id} a[href='/artworks/#{artwork.id}/edit']")
                |> render_click()
                |> follow_redirect(conn, ~p"/artworks/#{artwork}/edit")
 
-      assert render(form_live) =~ "Edit Artwork"
+      assert render(form_live) =~ "Editar Obra"
 
       assert form_live
              |> form("#artwork-form", artwork: @invalid_attrs)
@@ -82,7 +82,7 @@ defmodule CalderaodeartesdavobruxaWeb.ArtworkLiveTest do
                |> follow_redirect(conn, ~p"/artworks")
 
       html = render(index_live)
-      assert html =~ "Artwork updated successfully"
+      assert html =~ "Obra atualizada com sucesso"
       assert html =~ "some updated name"
     end
   end
@@ -93,7 +93,6 @@ defmodule CalderaodeartesdavobruxaWeb.ArtworkLiveTest do
     test "displays artwork", %{conn: conn, artwork: artwork} do
       {:ok, _show_live, html} = live(conn, ~p"/artworks/#{artwork}")
 
-      assert html =~ "Show Artwork"
       assert html =~ artwork.name
     end
   end
@@ -106,11 +105,11 @@ defmodule CalderaodeartesdavobruxaWeb.ArtworkLiveTest do
 
       assert {:ok, form_live, _} =
                show_live
-               |> element("a", "Edit")
+               |> element("a[href='/artworks/#{artwork.id}/edit?return_to=show']")
                |> render_click()
                |> follow_redirect(conn, ~p"/artworks/#{artwork}/edit?return_to=show")
 
-      assert render(form_live) =~ "Edit Artwork"
+      assert render(form_live) =~ "Editar Obra"
 
       assert form_live
              |> form("#artwork-form", artwork: @invalid_attrs)
@@ -123,7 +122,7 @@ defmodule CalderaodeartesdavobruxaWeb.ArtworkLiveTest do
                |> follow_redirect(conn, ~p"/artworks/#{artwork}")
 
       html = render(show_live)
-      assert html =~ "Artwork updated successfully"
+      assert html =~ "Obra atualizada com sucesso"
       assert html =~ "some updated name"
     end
   end

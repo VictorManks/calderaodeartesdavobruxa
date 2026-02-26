@@ -10,17 +10,19 @@
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
 
+Dotenvy.source!([".env"]) |> System.put_env()
+
 alias Calderaodeartesdavobruxa.Accounts.User
 alias Calderaodeartesdavobruxa.Repo
 
-if Application.get_env(:calderaodeartesdavobruxa, :env) == :dev do
-  %User{}
-  |> User.email_changeset(%{email: "victorfdefariaq@gmail.com"}, validate_unique: false)
-  |> User.password_changeset(%{password: "BlogDaVeia@2026"})
-  |> Ecto.Changeset.put_change(:role, :admin)
-  |> Ecto.Changeset.put_change(:confirmed_at, DateTime.utc_now(:second))
-  |> Repo.insert!(on_conflict: :nothing, conflict_target: :email)
+%User{}
+|> User.email_changeset(%{email: System.fetch_env!("ADMIN_EMAIL")}, validate_unique: false)
+|> User.password_changeset(%{password: System.get_env("ADMIN_PASSWORD")})
+|> Ecto.Changeset.put_change(:role, :admin)
+|> Ecto.Changeset.put_change(:confirmed_at, DateTime.utc_now(:second))
+|> Repo.insert!(on_conflict: :nothing, conflict_target: :email)
 
+if Application.get_env(:calderaodeartesdavobruxa, :env) == :dev do
   %User{}
   |> User.email_changeset(%{email: "teste_user@gmail.com"}, validate_unique: false)
   |> User.password_changeset(%{password: "teste@teste123"})

@@ -15,6 +15,7 @@ defmodule Calderaodeartesdavobruxa.Gallery.Artwork do
     field :weight, :float
     field :sent_price, :integer
     field :img, :string
+    field :sold, :boolean, default: false
 
     timestamps(type: :utc_datetime)
   end
@@ -22,7 +23,7 @@ defmodule Calderaodeartesdavobruxa.Gallery.Artwork do
   @doc false
   def changeset(artwork, attrs) do
     artwork
-    |> cast(attrs, [:name, :description, :style, :category, :subcategory, :materials, :width, :depth, :height, :weight, :sent_price, :img])
+    |> cast(attrs, [:name, :description, :style, :category, :subcategory, :materials, :width, :depth, :height, :weight, :sent_price, :img, :sold])
     |> validate_required([:name, :description, :style, :category, :subcategory, :materials, :width, :depth, :height, :weight, :sent_price, :img])
   end
 end

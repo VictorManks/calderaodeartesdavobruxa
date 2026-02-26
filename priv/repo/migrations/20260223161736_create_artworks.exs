@@ -15,6 +15,7 @@ defmodule Calderaodeartesdavobruxa.Repo.Migrations.CreateArtworks do
       add :weight, :float
       add :sent_price, :integer
       add :img, :string
+      add :sold, :boolean, default: false, null: false
 
       timestamps(type: :utc_datetime)
     end
